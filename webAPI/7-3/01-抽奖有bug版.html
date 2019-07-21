@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .main {
+            width: 660px;
+            height: 660px;
+            background-image: url('../images/panze.png');
+            margin: 100px auto;
+            position: relative;
+        }
+
+        .zhizhen {
+            width: 338px;
+            height: 338px;
+            background-image: url('../images/zhizhen.png');
+            background-repeat: no-repeat;
+            background-position: center top;
+            position: absolute;
+            top: 129px;
+            left: 152px;
+            transition: transform 500ms linear;
+        }
+
+        .begin {
+            width: 138px;
+            height: 138px;
+            position: absolute;
+            top: 227px;
+            left: 252px;
+            border-radius: 50%;
+            /* background-color: rgba(255,0,0,.5); */
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="zhizhen"></div>
+        <div class="begin"></div>
+    </div>
+</body>
+
+</html>
+<script>
+    /*
+      点击一下，让指针，旋转
+        旋转： css里面有一个属性  transform
+        需要随机旋转一个角度
+        旋转是以动画的形式实现的 ： 过渡动画 - stransition  用这个，因为只需要实现一次
+                                  帧动画     animation  @keyframes{}
+    
+      抽奖只能抽一次
+        把事件解绑了
+    
+      步骤：
+        1 获取元素
+        2 注册点击事件
+        3 让指针旋转一个随机角度
+            Math.random() * 360
+            直接修改 transform属性即可
+    */
+    // 获取元素
+    let begin = document.querySelector('.begin');
+    let zhizhen = document.querySelector('.zhizhen');
+    // 先储存未转动时的一个变量
+    let flag = false;
+    // 绑定事件
+    begin.onclick = function(){
+        // 先判断如果现在是没有转动的状态，就让他转起来
+        if(flag === false) {
+            flag = true;
+            // 储存一个随机角度的变量
+            let angle = Math.random()*720;
+            zhizhen.style.transform = 'rotate('+ angle+'deg)';
+        }
+    }
+
+// 但是这个做法是有bug的，因为声明的变量是全局的，可以在控制台上修改代码，这将会是件很恐怖的事情
+
+
+
+
+
+</script>

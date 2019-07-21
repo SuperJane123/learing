@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 1px solid #c0c0c0;
+        width: 500px;
+        margin: 100px auto;
+        text-align: center;
+    }
+
+    th {
+        background-color: #09c;
+        font: bold 16px "微软雅黑";
+        color: #fff;
+        height: 24px;
+    }
+
+    td {
+        border: 1px solid #d0d0d0;
+        color: #404060;
+        padding: 10px;
+    }
+</style>
+
+<body>
+    <table>
+        <tr>
+            <th>
+                <input type="checkbox" name="" id="checkAll" />全选/全不选
+            </th>
+            <th>菜名</th>
+            <th>商家</th>
+            <th>价格</th>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" name="check" class="ck" />
+            </td>
+            <td>红烧肉</td>
+            <td>隆江猪脚饭</td>
+            <td>￥200</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" name="check" class="ck" />
+            </td>
+            <td>香酥排骨</td>
+            <td>隆江猪脚饭</td>
+            <td>￥998</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" name="check" class="ck" />
+            </td>
+            <td>北京烤鸭</td>
+            <td>隆江猪脚饭</td>
+            <td>￥88</td>
+        </tr>
+    </table>
+
+
+
+</body>
+<script>
+    // 获取全选框元素对象/
+    var checkAll = document.getElementById('checkAll');
+    // 获取单选框元素对象,是个伪数组
+    var ck = document.getElementsByClassName('ck')
+    console.log(ck);
+    // 全选框注册事件
+    checkAll.onclick = function () {
+        // 控制其他选框和全选框状态一样
+        // 先得到自己的状态
+
+        var state = this.checked;
+        // 再把其他选框设置成全选框的状态
+        // 因为ck是伪数组，需要遍历循环出里面的每一个对象，再来设置属性
+        for (var i = 0; i < ck.length; i++) {
+            ck[i].checked = state;
+        }
+    }
+
+    // 需要给每个选框注册事件
+    for (var i = 0; i < ck.length; i++) {
+        ck[i].onclick = function () {
+            // 判断前面的菜的多选框是不是都选上了,
+            // 如果都选上了,全选也选上,如果有任意一个没选上，全选就不选上
+            // 因为选择3个是多个条件同时成立的,可以使用反证法
+            var flag = true;
+            for (var j = 0; j < ck.length; j++) {
+                if (ck[j].checked == false) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                checkAll.checked = true;
+            } else {
+                checkAll.checked = false;
+            }
+
+
+        }
+    }
+
+
+
+</script>
+
+
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+
+    ul {
+        list-style: none;
+    }
+
+    .nav::after,
+    .nav::before {
+        content: "";
+        clear: both;
+        display: block;
+    }
+
+
+
+    .container {
+        margin: 100px auto;
+        width: 600px;
+        height: 400px;
+        border: 1px solid #000;
+    }
+
+    .nav>li {
+        float: left;
+        width: 100px;
+        height: 60px;
+        border-right: 1px solid #000;
+        border-bottom: 1px solid #000;
+        text-align: center;
+        line-height: 60px;
+    }
+
+    .nav>li.active {
+        background-color: blueviolet;
+    }
+
+    ;
+
+    /* .content {
+        height: 50px;
+        background-color: brown;
+    } */
+
+    .row {
+        border-top: 1px solid #000;
+    }
+
+    .row .content {
+        height: 338px;
+        background-color: brown;
+        display: none;
+    }
+
+    .row .show {
+        display: block;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <ul class="nav">
+            <li class="active">影音</li>
+            <li>书籍</li>
+            <li>零食</li>
+        </ul>
+        <div class="row">
+            <div class="content show">影音的对应的内容</div>
+            <div class="content">书籍的对应的内容</div>
+            <div class="content">零食的对应的内容</div>
+
+        </div>
+    </div>
+</body>
+
+<script>
+    // 用es6的语法来写，class
+    class Tab {
+        // 会变的属性有：
+        // 选择器：navSelector
+        // 内容：contnetSelector
+        // 选择器样式：navClass
+        // 内容样式：contentClass
+
+        // 属性写在constructor里面
+        constructor(opt) {
+            // 设置默认值
+            opt = opt || {};
+            this.navSelector = opt.navSelector || '.nav > li';
+            this.contnetSelector = opt.contnetSelector || '.content';
+            this.navClass = opt.navClass || 'active';
+            this.contentClass = opt.contentClass || 'show';
+            this.type = opt.type || 'mouseover';
+
+        };
+        // 描写方法
+        addEvent() {
+            // 要提前保存一个实例对象的this
+            let _this = this; 
+            // 获取属性
+            let lis = document.querySelectorAll(this.navSelector);
+            let contents = document.querySelectorAll(this.contnetSelector);
+            // 注册事件
+            lis.forEach((e, i) => {
+                e.addEventListener(this.type, function () {
+                    // 遍历每个li
+                    lis.forEach(e => {
+                        e.classList.remove(_this.navClass);
+                    });
+                    this.classList.add(_this.navClass);
+                    // 遍历每个内容
+                    contents.forEach(e => {
+                        e.classList.remove(_this.contentClass);
+                    });
+                    contents[i].classList.add(_this.contentClass);
+
+                });
+
+            });
+        };
+
+
+    };
+
+    let tab = new Tab();
+    tab.addEvent();
+
+
+
+
+</script>
+
+
+
+
+
+</html>

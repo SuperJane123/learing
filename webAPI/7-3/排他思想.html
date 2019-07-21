@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+        /* 常用于表示选中状态的类名： current   active   on */
+        .on{
+            background-color: pink;
+        }
+  </style>
+
+<body>
+        <input type="button" value="美女1" >
+        <input type="button" value="美女2" >
+        <input type="button" value="美女3" >
+</body>
+<script>
+    let btn = document.querySelectorAll('input');
+    for(var i = 0;i < btn.length;i++){
+        btn[i].onclick = function() {
+            for(var j = 0;j < btn.length;j++){
+                btn[j].classList.remove('on');
+            }
+            this.classList.add('on');
+        }
+    }
+
+
+
+</script>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .box {
+        position: absolute;
+        top: 100px;
+        left: 300px;
+    }
+
+    input {
+        box-sizing: border-box;
+        width: 300px;
+        height: 56px;
+        background-image: url('../images/search.png');
+        padding: 4px 6px;
+        border: 0 none;
+        outline: 0 none;
+        font-size: 24px;
+    }
+
+    .list {
+        border: 1px solid #ccc;
+        position: absolute;
+        top: 54px;
+        left: 2px;
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <input type="text" id="search">
+        <div class="list" id="list">
+            <img src="../images/mi.png" alt="">
+        </div>
+    </div>
+
+</body>
+    <script>
+        /*效果：
+        1.当输入获得焦点的时候，把下拉表显示
+        2.当输入框失去焦点时，把下啦框隐藏
+
+        步骤：
+        1.获取输入框
+        2.注册获得焦点和失去焦点的事件
+        3.在获得焦点的时候，给list这个div添加一个class.show
+          在失去焦点的时候，给list这个div移除class.show*/
+
+
+        //   获取元素
+        var search = document.getElementById('search');
+        var list = document.getElementById('list');
+        // 给输入框注册获得焦点事件
+        search.onfocus = function() {
+            // 把下拉显示-把类名里面多加一个show
+            list.classList.add('show')
+        }
+        // 给输入框这册失焦事件
+        search.onblur = function() {
+            list.classList.remove('show');
+        }
+
+    
+    
+    </script>
+</html>

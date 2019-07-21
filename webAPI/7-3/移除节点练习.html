@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="点我有惊喜哦" id = 'btn'>
+    <ul>
+        <li>我是第1个li</li>
+        <li>我是第2个li</li>
+        <li>我是第3个li</li>
+        <li>我是第4个li</li>
+        <li>我是第5个li</li>
+    </ul>
+</body>
+
+<script>
+    // 移除节点练习
+// 获取按钮元素
+// let btn = document.querySelector('#btn');
+// let ul = document.querySelector('ul');
+
+
+// 给按钮绑定事件
+// btn.onclick = function(){
+//     // 需要点击的时候，总是把第一个li移除
+//     // 先储存ul的第一个子元素
+//     let first = ul.children[0] ;
+//     ul.removeChild(first);
+    
+// }
+
+let btn = document.querySelector('#btn');
+let ul = document.querySelector('ul');
+btn.onclick = function(){
+    let first = ul.children[0];
+    ul.removeChild(first);
+}
+
+</script>
+</html>

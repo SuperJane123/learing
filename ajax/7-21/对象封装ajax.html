@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 对象封装函数,会变的量有，请求方式，api地址接口，带回服务器的参数，别人写的逻辑代码
+    function ajax(options){
+        // 不传参数时，设置以下默认参数
+        options = options || {};
+        options.type = options.type || 'get';
+        options.url = options.url || '';
+        options.data = options.data || '';
+        options.callback = options.callback || function(res){
+            console.log('最好把回掉函数也写上哦');
+            console.log(res);
+        };
+        // 创建ajax
+        let xhr = new XMLHttpRequest();
+        // 判断请求方式为get时，把参数写地址栏后面
+        if(options.type === 'get'){
+            options.url += '?'+options.data;
+            // 给url重新赋值
+            xhr.open(options.type,options.url);
+            
+        };
+        // 判断如果请求方式为post时
+        if(options.type === 'post'){
+            xhr.open(options.type,options.url);
+            // 设置请求体
+            xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+            // 发送请求
+            xhr.send(options.data)
+        }else{
+            xhr.send();
+        };
+
+        // 监听状态事件
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4){
+                if(xhr.status === 200){
+                    options.callback(xhr.responseText)
+                }
+            }
+        }
+    };
+
+
+    ajax({
+        type : 'get',
+        url : 'http://127.0.0.1:8080/isLogin',
+        data : 'id=userName',
+        callback : function(res){
+            console.log(res)
+        }
+
+
+    })
+
+
+
+
+</script>
+</html>

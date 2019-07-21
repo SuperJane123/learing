@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav {
+        list-style: none;
+    }
+
+    .main {
+        width: 600px;
+        height: 400px;
+        margin: 100px auto;
+        border: 1px solid #000;
+    }
+
+    .nav::after,
+    .nav::before {
+        content: "";
+        clear: both;
+        display: block;
+    }
+
+    .nav>li {
+        float: left;
+        width: 100px;
+        height: 60px;
+        border-bottom: 1px solid #000;
+        border-right: 1px solid #000;
+        line-height: 60px;
+        text-align: center;
+    }
+
+    ;
+
+    .box {
+        border-top: 1px solid #000;
+    }
+
+    .content {
+        height: 339px;
+        background-color: rosybrown;
+        display: none;
+
+    }
+
+    .show {
+        display: block;
+    }
+
+    .acticve {
+        background-color: blueviolet;
+    }
+</style>
+
+
+
+<body>
+    <div class="main">
+        <ul class="nav">
+            <li class="acticve">影音</li>
+            <li>书籍</li>
+            <li>零食</li>
+        </ul>
+
+        <div class="box">
+            <div class="content show">影音对应的内容</div>
+            <div class="content">书籍对应的内容</div>
+            <div class="content">零食对应的内容</div>
+
+        </div>
+
+
+    </div>
+</body>
+<script src="./02-tab.js"></script>
+<script>
+    // 使用es6的语法 extends来继承的方式写
+    class AutoTab extends Tab {
+        // 会变的属性有：
+        // 选择器：navSelector
+        // 内容：contnetSelector
+        // 选择器样式：navClass
+        // 内容样式：contentClass
+        //注册事件：type
+
+        constructor(opt) {
+            // 要把父级的构造函数添加上
+            opt = opt || {};
+            super(opt);
+            this.interval = opt.interval || 1000;
+
+        };
+
+        // 描写定时器的方法
+        applyAuto() {
+            // let _this = this;
+            // 获取元素
+            let lis = document.querySelectorAll(this.navSelector);
+            // console.log(lis)
+            let contents = document.querySelectorAll(this.contnetSelector);
+            // 设置一个当前的索引位置
+            let index = 0;
+            setInterval(()=> {
+                index = ++index % lis.length;
+                lis.forEach(e => {
+                    e.classList.remove(this.navClass);
+                });
+                lis[index].classList.add(this.navClass);
+
+                contents.forEach(e => {
+                    e.classList.remove(this.contentClass);
+                });
+                contents[index].classList.add(this.contentClass);
+
+            }, this.interval);
+
+
+
+
+            // 更优化写法
+            this.timer = setInterval(() => {
+                index = ++index % lis.length;
+                // 调用方法
+                this.changeNavClass(lis,lis[index]);
+                // 调用方法
+                this.changeContentClass(contents,contents[index]);
+
+            }, this.interval);
+
+        }
+
+    }
+
+    let tab = new AutoTab();
+    tab.applyAuto();
+    tab.addEvent();
+
+
+
+
+
+
+</script>
+
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .box {
+            width: 730px;
+            height: 454px;
+            padding: 8px;
+            border: 1px solid green;
+            margin: 100px auto;
+        }
+
+        .inner {
+            position: relative;
+            overflow: hidden;
+            height: 454px;
+        }
+
+        #imglist {
+            width: 700%;
+            position: absolute;
+            left: 0;
+            transition: left 300ms linear;
+        }
+
+        li {
+            float: left;
+        }
+
+        .list {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            margin-left: -85px;
+        }
+
+        .list i {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #333;
+            float: left;
+            font-style: normal;
+            line-height: 20px;
+            font-size: 14px;
+            text-align: center;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .list i:last-child {
+            margin-right: 0;
+        }
+
+        .list i.current {
+            background-color: skyblue;
+            color: #fff;
+        }
+
+        .arrow {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            margin-top: -30px;
+        }
+
+        .arrow-left,
+        .arrow-right {
+            width: 30px;
+            height: 60px;
+            position: absolute;
+            font: 20px/60px "consolas";
+            color: #fff;
+            background-color: rgba(0, 0, 0, .3);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .arrow-right {
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box" id="box">
+        <div class="inner" id="inner">
+            <ul id="imglist">
+                <li><a href="#"><img src="images/1.jpg" alt=""></a></li>
+                <li><a href="#"><img src="images/2.jpg" alt=""></a></li>
+                <li><a href="#"><img src="images/3.jpg" alt=""></a></li>
+                <li><a href="#"><img src="images/4.jpg" alt=""></a></li>
+                <li><a href="#"><img src="images/5.jpg" alt=""></a></li>
+                <li><a href="#"><img src="images/6.jpg" alt=""></a></li>
+            </ul>
+            <div class="list">
+                <i class="current">1</i>
+                <i>2</i>
+                <i>3</i>
+                <i>4</i>
+                <i>5</i>
+                <i>6</i>
+            </div>
+            <div class="arrow">
+                <span class="arrow-left">&lt;</span>
+                <span class="arrow-right">&gt;</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    window.onload = function () {
+        // 实现序号切换
+        // 获取元素
+        let circles = document.querySelectorAll('.list > i');
+        // 因为是整个ul在动，所以要获取ul元素
+        let ul = document.querySelector('#imglist');
+        // 只需要获取一张图片元素
+        let img = document.querySelector('#imglist img');
+
+        // 给每个原点注册鼠标移入时间
+        circles.forEach(function (e,i) {
+            e.onmouseover = function () {
+                // console.log(img.offsetWidth);
+                // ul移动的距离就是几张图片的宽度，用公式i*图片的宽度*-1
+                ul.style.left = i * img.offsetWidth * -1 + 'px';
+                // 做排他事件处理，先把每个原点的状态都设置一样，然后再点自己的时候，添加样式
+                circles.forEach(function (e) {
+                    e.classList.remove('current')
+                })
+                this.classList.add('current');
+            }
+
+        })
+
+    }
+
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./zepto.js"></script>
+    <script src="./touch.js"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    header {
+        height: 100px;
+        background-color: bisque
+    }
+
+    nav {
+        overflow: hidden;
+        width: 100%;
+
+    }
+
+    nav>ul {
+        display: flex;
+        width: 800%;
+    }
+
+    nav>ul>li {
+        flex: 1;
+    }
+
+    img {
+        width: 100%;
+        vertical-align: middle;
+    }
+
+
+    main {
+        height: 100px;
+        background-color: aquamarine;
+    }
+</style>
+
+<body>
+    <header></header>
+
+    <nav>
+        <!-- 轮播的做法，其实用的是障眼法，把第一张图片复制到一张到最后面，把最后一张图片复制一张到前面， -->
+        <ul>
+            <li><a href="#"><img src="./images/6.jpg" alt=""></a></li>
+            <li><a href="#"><img src="./images/1.jpg" alt=""></a></li>
+            <li><a href="#"><img src="./images/2.jpg" alt=""></a></li>
+            <li><a href="#"><img src="./images/3.jpg" alt=""></a></li>
+            <li><a href="#"><img src="./images/4.jpg" alt=""></a></li>
+            <li><a href="#"><img src="./images/5.jpg" alt=""></a></li>
+            <li><a href="#"><img src="./images/6.jpg" alt=""></a></li>
+            <li><a href="#"><img src="./images/1.jpg" alt=""></a></li>
+        </ul>
+    </nav>
+
+    <main></main>
+
+</body>
+<script>
+    // 效果是实现无缝滚动轮播图
+
+
+    // 获取元素
+    let ul = $('nav > ul');
+    // console.log(ul)
+    // 设置当前图片的位置在第一张
+    let imgIndex = 1;
+
+    // 获取图片的宽度
+    let imgWidth = $('nav').width();
+    // console.log(imgWidth)
+
+    // 设置ul的当前位置
+    let target = imgIndex * imgWidth * -1;
+    ul[0].style.transform = 'translate(' + target + 'px' + ')';
+
+
+    // 给图片做过度效果
+    setTimeout(e => {
+        ul.css('transition', 'transform 600ms');
+        // console.log(ul.css('transition'))
+    }, 0)
+
+
+
+
+
+    // 给ul做触屏向左边滑动效果，图片是n++，当图片到最后一张时，跳到第一张
+    ul.on('swipeLeft', function () {
+
+        // 图片索引位置自增
+        imgIndex++
+        // 计算ul当前的位置
+        let target = imgIndex * imgWidth * -1;
+        // console.log(target)
+        // 赋值给ul
+        // ul[0].style.transform = 'translate(' + target + 'px' + ')';
+        ul.css('transform', 'translate(' + target + 'px)');
+
+    });
+
+    // 给ul做触屏向右滑动效果，图片是n--
+    ul.on('swipeRight', function () {
+        imgIndex--;
+        let target = imgIndex * imgWidth * -1;
+        ul.css('transform', 'translate(' + target + 'px)');
+
+    })
+
+
+    // 给ul做动画结束效果
+    ul[0].addEventListener('transitionend', function () {
+        if (imgIndex === ul[0].children.length - 1) {
+            imgIndex = 1;
+            // 清楚动画效果,作用是，如果不清除动画，那动画到最后一张时，会自动跑到前面去
+           
+            let target = imgIndex * imgWidth * -1;
+
+            ul.css('transform', 'translate(' + target + 'px)');
+            ul[0].style.transition = '';
+            // 要做定时器的原因是，需要一点时间来过度图片
+            setTimeout(e => {
+               ul.css('transition', 'transform 600ms');
+            }, 10);
+
+        }
+
+        if (imgIndex === 0) {
+            imgIndex = ul[0].children.length - 2;
+           
+            let target = imgIndex * imgWidth * -1;
+            ul.css('transform', 'translate(' + target + 'px)');
+            ul[0].style.transition = '';
+
+            setTimeout(e => {
+                ul.css('transition', 'transform 600ms');
+            }, 10);
+
+        }
+    })
+
+
+
+
+
+
+
+</script>
+
+
+</html>

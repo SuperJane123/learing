@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>旋转木马轮播图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        ul {
+            list-style: none
+        }
+
+        img {
+            border: 0;
+            vertical-align: top;
+        }
+
+        a,
+        button {
+            cursor: pointer;
+        }
+
+        .wrap {
+            width: 1200px;
+            margin: 100px auto;
+        }
+
+        .slide {
+            height: 500px;
+            position: relative;
+        }
+
+        .slide li {
+            position: absolute;
+            left: 200px;
+            top: 0;
+            transition: all 350ms;
+        }
+
+        .slide li img {
+            width: 100%;
+        }
+
+        .prev,
+        .next {
+            width: 76px;
+            height: 112px;
+            position: absolute;
+            top: 50%;
+            margin-top: -56px;
+            background: url(../images/prev.png) no-repeat;
+            z-index: 99;
+        }
+
+        .next {
+            right: 0;
+            background-image: url(../images/next.png);
+        }
+
+        .slide li.left1 {
+            width: 400px;
+            top: 20px;
+            left: 50px;
+            opacity: 0.2;
+            z-index: 2;
+        }
+
+        .slide li.left2 {
+            width: 600px;
+            top: 70px;
+            left: 0px;
+            opacity: 0.8;
+            z-index: 3;
+        }
+
+        .slide li.middle {
+            width: 800px;
+            top: 100px;
+            left: 200px;
+            opacity: 1;
+            z-index: 4;
+        }
+
+        .slide li.right2 {
+            width: 600px;
+            top: 70px;
+            left: 600px;
+            opacity: 0.8;
+            z-index: 3;
+        }
+
+        .slide li.right1 {
+            width: 400px;
+            top: 20px;
+            left: 750px;
+            opacity: 0.2;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap" id="wrap">
+        <div class="slide" id="slide">
+            <ul>
+                <li>
+                    <a href="#"><img src="../images/slidepic1.jpg" alt="" /></a>
+                </li>
+                <li>
+                    <a href="#"><img src="../images/slidepic2.jpg" alt="" /></a>
+                </li>
+                <li>
+                    <a href="#"><img src="../images/slidepic3.jpg" alt="" /></a>
+                </li>
+                <li>
+                    <a href="#"><img src="../images/slidepic4.jpg" alt="" /></a>
+                </li>
+                <li>
+                    <a href="#"><img src="../images/slidepic5.jpg" alt="" /></a>
+                </li>
+            </ul>
+            <div class="arrow" id="arrow">
+                <a href="javascript:;" class="prev" id="arrLeft"></a>
+                <a href="javascript:;" class="next" id="arrRight"></a>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    /*
+      效果：
+        1.刷新页面的时候，五张图片从中间散开到达他们各自应该在的位置
+        2.点击右边按钮
+            图片形成一个逆时针位移
+        3.点击左边按钮
+            图片形成一个顺时针旋转效果
+    */
+    // 实现刷新页面的时候，把图片从中间展开的效果
+    /*
+      我们一开始定义了5个类名，分别表示5张图片的位置，一开始只要遍历所有的图片，把对应的位置，设置给他们就可以了
+    
+      步骤：
+        1.获取所有的图片的li
+        2. 使用一个数组把所有的类名存储起来，使我们可以遍历使用
+        3. 遍历地设置类名
+    */
+
+
+    // 用一个数据把位置的类名装起来
+    let className = ['left1', 'left2', 'middle', 'right2', 'right1',];
+
+    // 记住图片比较多的情况下，静态资源要在window.onload下才能加载图片
+    window.onload = function () {
+
+        // 把li遍历法封装成函数
+        function forEach() {
+            lis.forEach((e, i) => {
+                e.className = className[i];
+            });
+
+        };
+
+        // 获取每个li元素
+        let lis = document.querySelectorAll('.slide li');
+        // 获取右键元素
+        let arrRight = document.querySelector('#arrRight');
+        // 获取左键元素
+        let arrLeft = document.querySelector('#arrLeft');
+
+        // 给每个li把位置用遍历法对应上去,调用函数
+        forEach();
+
+
+
+
+        // 给右键绑定点击事件
+        arrRight.onclick = function () {
+            // 把第一类名提取出来
+            let first = className.shift();
+            // 把提取出来的类名放到最后
+            className.push(first);
+            // console.log(className);
+            // 把图片对应的类名位置换一下
+            //     lis.forEach((e,i) =>{
+            //         e.className = className[i];
+            //     })
+            // }
+            forEach();
+        };
+
+
+        // 给左键绑定点击事件
+        arrLeft.onclick = function() {
+            // 把最后一个类名提取出来
+            let last = className.pop();
+            // 提取出来放到最前面
+            className.unshift(last);
+            // 把图片对应的类名位置换一下
+            forEach();
+        };
+
+    };
+
+
+</script>
+
+</html>

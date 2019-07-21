@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .wrap {
+            width: 410px;
+            margin: 100px auto 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #c0c0c0;
+        }
+
+        th,
+        td {
+            border: 1px solid #d0d0d0;
+            color: #404060;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #09c;
+            font: bold 16px "微软雅黑";
+            color: #fff;
+        }
+
+        td {
+            font: 14px "微软雅黑";
+        }
+
+        td a.get {
+            text-decoration: none;
+        }
+
+        a.del:hover {
+            text-decoration: underline;
+        }
+
+        tbody tr {
+            background-color: #f0f0f0;
+        }
+
+        tbody tr:hover {
+            cursor: pointer;
+            background-color: #fafafa;
+        }
+
+        .btnAdd {
+            width: 110px;
+            height: 30px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .form-item {
+            height: 100%;
+            position: relative;
+            padding-left: 100px;
+            padding-right: 20px;
+            margin-bottom: 34px;
+            line-height: 36px;
+        }
+
+        .form-item>.lb {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: block;
+            width: 100px;
+            text-align: right;
+        }
+
+        .form-item>.txt {
+            width: 300px;
+            height: 32px;
+        }
+
+        .mask {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            opacity: 0.6;
+            display: none;
+        }
+
+        #j_hideFormAdd {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 22px;
+            font-size: 18px;
+        }
+
+        #j_hideFormAdd:hover {
+            background-color: skyblue;
+        }
+
+        .form-add {
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            margin-left: -197px;
+            padding-bottom: 20px;
+            background: #fff;
+            display: none;
+        }
+
+        .form-add-title {
+            background-color: #f7f7f7;
+            border-width: 1px 1px 0 1px;
+            border-bottom: 0;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-add-title span {
+            width: auto;
+            height: 18px;
+            font-size: 16px;
+            font-family: 宋体;
+            font-weight: bold;
+            color: rgb(102, 102, 102);
+            text-indent: 12px;
+            padding: 8px 0px 10px;
+            margin-right: 10px;
+            display: block;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .form-add-title div {
+            width: 16px;
+            height: 20px;
+            position: absolute;
+            right: 10px;
+            top: 6px;
+            font-size: 30px;
+            line-height: 16px;
+            cursor: pointer;
+        }
+
+        .form-submit {
+            text-align: center;
+        }
+
+        .form-submit input {
+            width: 170px;
+            height: 32px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--按钮和表单-->
+    <div class="wrap">
+        <div>
+            <input type="button" value="添加数据" id="j_btnAddData" class="btnAdd" />
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>课程名称</th>
+                    <th>所属学院</th>
+                    <th>已学会</th>
+                </tr>
+            </thead>
+            <tbody id="j_tb">
+                <tr>
+                    <td>JavaScript</td>
+                    <td>传智播客-前端与移动开发学院</td>
+                    <td><a href="javascrip:;" class="get">delete</a></td>
+                </tr>
+                <tr>
+                    <td>css</td>
+                    <td>传智播客-前端与移动开发学院</td>
+                    <td><a href="javascrip:;" class="get">delete</a></td>
+                </tr>
+                <tr>
+                    <td>html</td>
+                    <td>传智播客-前端与移动开发学院</td>
+                    <td><a href="javascrip:;" class="get">delete</a></td>
+                </tr>
+                <tr>
+                    <td>jQuery</td>
+                    <td>传智播客-前端与移动开发学院</td>
+                    <td><a href="javascrip:;" class="get">delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--遮罩层-->
+    <div id="j_mask" class="mask"></div>
+    <!--添加数据的表单-->
+    <div id="j_formAdd" class="form-add">
+        <div class="form-add-title">
+            <span>添加数据</span>
+
+            <div id="j_hideFormAdd">×</div>
+        </div>
+        <div class="form-item">
+            <label class="lb" for="j_txtLesson">课程名称：</label>
+            <input class="txt" type="text" id="j_txtLesson" placeholder="请输入课程名称">
+        </div>
+        <div class="form-item">
+            <label class="lb" for="j_txtBelSch">所属学院：</label>
+            <input class="txt" type="text" id="j_txtBelSch" value="传智播客-前端与移动开发学院">
+        </div>
+        <div class="form-submit">
+            <input type="button" value="添加" id="j_btnAdd">
+        </div>
+    </div>
+
+</body>
+<script src="./js/jquery-2.2.2.js"></script>
+<script>
+    /*
+      效果：
+        1.点击 添加数据 会显示用于输入的面板
+        2.点击 添加按钮 得到两个输入框的内容，创建一个新元素，添加到结构中
+    */
+    // 效果1： 获取添加数据按钮，注册点击事件
+    $(() => {
+        $('#j_btnAddData').on('click', () => {
+            // 展示遮罩层
+            $('#j_mask').show();
+            //展示输入面板
+            $('.form-add').show();
+
+        });
+
+        // 效果2:获取添加按钮，注册点击事件
+        $('#j_btnAdd').on('click', () => {
+            //获取课程文本内容
+            let kc = $('#j_txtLesson').val();
+            //获取学院内容
+            let school = $('#j_txtBelSch').val();
+            // 创建页面元素
+            let tr = ` <tr>
+                    <td>${kc}</td>
+                    <td>${school}</td>
+                    <td><a href="javascrip:;" class="get">delete</a></td>
+                </tr>`;
+            // 把新的结构添加到父元素
+            $('#j_tb').append(tr);
+            // 隐藏遮罩层
+            $('#j_mask').hide();
+            //隐藏输入面板
+            $('.form-add').hide();
+
+            //把内容清空
+            $('#j_txtLesson').val('');
+        });
+
+        // 效果3 ：获取关闭按钮
+        $('#j_hideFormAdd').on('click', () => {
+            // 隐藏遮罩层
+            $('#j_mask').hide();
+            //隐藏输入面板
+            $('.form-add').hide();
+            // 内容清空
+            $('#j_txtLesson').val('');
+        });
+
+        // 效果4:点击删除，把整行删除，用jq里封装好的事件委托方法
+        // 获取父元素，注册点击事件
+        $('#j_tb').on('click','.get',function(){
+            console.log(this);
+            // 删除tr,通过jq提供的partne()方法，可以找到全部的父元素，还可以进行筛选
+            $(this).parents('tr').remove();
+            // $('table').css('width',372);
+        });
+
+
+
+        // 效果5:按下ctrl键和enter键添加消息
+        $(document).on('keydown',e=>{
+            if( e.ctrlKey && e.keyCode === 13) {
+                 //获取课程文本内容
+            let kc = $('#j_txtLesson').val();
+            //获取学院内容
+            let school = $('#j_txtBelSch').val();
+            // 创建页面元素
+            let tr = ` <tr>
+                    <td>${kc}</td>
+                    <td>${school}</td>
+                    <td><a href="javascrip:;" class="get">delete</a></td>
+                </tr>`;
+            // 把新的结构添加到父元素
+            $('#j_tb').append(tr);
+            // 隐藏遮罩层
+            $('#j_mask').hide();
+            //隐藏输入面板
+            $('.form-add').hide();  
+
+            //把内容清空
+            $('#j_txtLesson').val('');
+            };
+            console.log(e)
+        });
+
+
+
+    });
+
+</script>
+
+</html>

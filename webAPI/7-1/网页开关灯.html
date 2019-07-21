@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    #box {
+        position: relative;
+        margin: 100px auto;
+        width: 400px;
+        height: 300px;
+        background: powderblue;
+    }
+    h3 {
+        position: absolute;
+        top: 50%;
+        left : 50%;
+        transform: translate(-50%,-50%);
+        font-size: 30px;
+    }
+
+    .btn {
+        position: absolute;
+        top: 0px;
+        right: -100px;
+    }
+
+    .btn input {
+        display: block;
+        padding: 5px;
+        margin-bottom: 50px;
+        font-size: 16px;
+        background: #eee;
+        outline: none;
+    } 
+    
+</style>
+
+<body>
+    <div id="box">
+        <h3>🎬电影播放中</h3>
+        <div class="btn">
+            <input type="button" value="关灯" id="btnClose">
+            <input type="button" value="开灯" id="btnOpen">
+
+        </div>
+    </div>
+</body>
+<script>
+    // 通过文本对象id来获取关灯按钮元素
+    let btnClose = document.getElementById('btnClose');
+    // 注册事件
+    btnClose.onclick = function () {
+        // 触发事件体,背景颜色变黑
+        document.body.style.backgroundColor = '#000';
+        // 关灯按钮背景换颜色
+        btnClose.style.backgroundColor = 'pink';
+        // 开灯按钮颜色还原
+        btnOpen.style.backgroundColor = '#eee';
+
+    };
+
+    // 通过文本对象id获取开灯按钮元素
+    let btnOpen = document.getElementById('btnOpen');
+    // 注册事件
+    btnOpen.onclick = function () {
+        // 触发事件体，背景颜色变白
+        document.body.style.backgroundColor = '#fff';
+        // 开灯按钮背景变颜色
+        btnOpen.style.backgroundColor = 'pink'
+        // 关灯按钮颜色还原
+        btnClose.style.backgroundColor = '#eee';
+
+
+    }
+
+
+</script>
+
+
+</html>

@@ -1,0 +1,87 @@
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .box {
+            width: 322px;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            overflow: hidden;
+        }
+
+        span {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 20px;
+            cursor: pointer;
+        }
+    </style>   
+</head>
+<body>
+<div class="box" id="box">
+    <span id="closeButton"></span>
+    <div class="hd" id="headPart">
+        <img src="../images/t.jpg" alt=""/>
+    </div>
+    <div class="bd" id="bottomPart">
+        <img src="../images/b.jpg" alt=""/>
+    </div>
+</div>
+</body>
+<script src="../js/jquery-2.2.2.js"></script>
+<script>
+/*
+  效果：
+    底部的高度先到0，整个盒子的宽度到0
+
+  // 感觉有时候，jq的动画好像蛮方便的，但是如果是在新式浏览器里面(ie8以上的)，更加推荐使用c3动画 - c3动画的执行效率比jq的要高的
+
+  为什么ie8里面使用jq的动画？ie8里面c3动画用不了
+*/
+
+// $(()=>{
+//     $('#closeButton').on('click',function(){
+//         // 先把底部高度变为0
+//         $('#bottomPart').animate({height : 0},1000,function(){
+//             // 再把盒子宽度变为0
+//             $('.box').animate({width : 0},1000,);
+//         });
+//     });
+// });
+
+// $(()=>{
+//     $('#closeButton').on('click',()=>{
+//         $('#bottomPart').animate({height : 0},1000, function(){
+//             $('.box').animate({width : 0},1000);
+//         });
+//     });
+// });
+
+
+
+
+$(()=>{
+    $('#closeButton').on('click',()=>{
+        $('#bottomPart').animate({height : 0},1000,function(){
+            $('.box').animate({width : 0},1000);
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+</script>
+</html>

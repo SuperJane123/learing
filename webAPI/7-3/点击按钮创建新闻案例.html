@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <input id="btn" type="button" value="点击按钮创建新闻">
+        <ul id="news">
+</body>
+<script>
+    var arr = [ "国家新闻出版广电总局发文 游戏版号申报正式重启",
+        "实探黑龙江鹤岗：6年11万套棚改房 煤厂停产“人都走了”",
+        "国家网信办集中查处一批违法违规色情、赌博和占卜网站"];
+    // 获取元素
+    let btn = document.getElementById('btn');
+    let ul = document.getElementById('news');
+    // 绑定事件
+    btn.onclick =function() {
+        var content = '';
+        for(var i = 0; i< arr.length;i++) {
+            content += '<li>'+arr[i]+ '</li>'
+        }
+        ul.innerHTML = content;
+    }
+
+</script>
+</html>

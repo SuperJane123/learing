@@ -1,0 +1,104 @@
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>做人要对自己狠一点</title>
+    <style>
+
+        ul {
+            list-style: none;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        div {
+            width: 1150px;
+            height: 400px;
+            margin: 50px auto;
+            border: 1px solid red;
+            overflow: hidden;
+        }
+
+        div li {
+            width: 240px;
+            height: 400px;
+            float: left;
+            transition: width 300ms;
+        }
+
+        div ul {
+            width: 1300px;
+        }
+
+        /* div {
+          background-image: url('');
+        } */
+    </style>
+</head>
+<body>
+<div id="box">
+    <ul>
+        <li>
+          <a href="#">
+            <img src="../images/1.jpg" alt="">
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img src="../images/2.jpg" alt="">
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img src="../images/3.jpg" alt="">
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img src="../images/4.jpg" alt="">
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img src="../images/5.jpg" alt="">
+          </a>
+        </li>
+    </ul>
+</div>
+</body>
+<script>
+/*
+  手动的给每个li，添加背景图片
+  鼠标移入，让当前变大，其他变小
+  鼠标移出，恢复原来的大小
+*/
+// 获取每个li元素，遍历li，用排他思想
+let lis = document.querySelectorAll('#box li');
+
+// 遍历li，给每个li绑定鼠标移入事件
+lis.forEach( function(e) {
+    e.onmouseover = function() {
+        console.log(123)
+        // 用排他思想，把每个图片都设置成普通
+        lis.forEach(e => {
+            e.style.width = 100 + 'px';
+        });
+        this.style.width = 800 + 'px';
+    };
+});
+
+// 鼠标移出事件
+document.onmouseout = () => {
+    // 给每个li宽度设置一样
+    lis.forEach(e => {
+        e.style.width = 240 + 'px';
+    });
+};
+
+</script>
+</html>

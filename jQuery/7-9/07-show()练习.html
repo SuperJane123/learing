@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    .box {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+    }
+
+
+</style>
+<body>
+    <button>出现</button>
+    <button>消失</button>
+    <button>切换</button>
+    <button>透明化</button>
+    <button>渐入</button>
+    <button>透明程度</button>
+    
+
+
+
+    <div class="box"></div>
+</body>
+
+<script src="../js//jquery-2.2.2.js"></script>
+<script>
+
+    $('button').eq(0).on('click',()=>{
+        $('.box').show(2000); //显示
+    });
+
+    $('button').eq(1).on('click',()=>{
+        $('.box').hide(2000);  //隐藏
+    });
+
+    $('button').eq(2).on('click',()=>{
+        $('.box').toggle(2000);   //切换
+    });
+    $('button').eq(3).on('click',()=>{
+        $('.box').fadeOut(2000);   //透明化
+    });
+    $('button').eq(4).on('click',()=>{
+        $('.box').fadeIn(2000);   //渐入
+    });
+    $('button').eq(5).on('click',()=>{
+        $('.box').fadeTo(2000,0.5);   //渐入
+    });
+
+
+    </script>
+
+</html>

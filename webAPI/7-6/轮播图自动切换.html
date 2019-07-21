@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .box {
+            width: 730px;
+            height: 454px;
+            padding: 8px;
+            border: 1px solid green;
+            margin: 100px auto;
+        }
+
+        .inner {
+            position: relative;
+            overflow: hidden;
+            height: 454px;
+        }
+
+        #imglist {
+            width: 700%;
+            position: absolute;
+            left: 0;
+            transition: left 300ms linear;
+        }
+
+        li {
+            float: left;
+        }
+
+        .list {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            margin-left: -85px;
+        }
+
+        .list i {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #333;
+            float: left;
+            font-style: normal;
+            line-height: 20px;
+            font-size: 14px;
+            text-align: center;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .list i:last-child {
+            margin-right: 0;
+        }
+
+        .list i.current {
+            background-color: skyblue;
+            color: #fff;
+        }
+
+        .arrow {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            margin-top: -30px;
+        }
+
+        .arrow-left,
+        .arrow-right {
+            width: 30px;
+            height: 60px;
+            position: absolute;
+            font: 20px/60px "consolas";
+            color: #fff;
+            background-color: rgba(0, 0, 0, .3);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .arrow-right {
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box" id="box">
+        <div class="inner" id="inner">
+            <ul id="imglist">
+                <li><a href="#"><img src="../images/1的副本.jpg" alt=""></a></li>
+                <li><a href="#"><img src="../images/2的副本.jpg" alt=""></a></li>
+                <li><a href="#"><img src="../images/3的副本.jpg" alt=""></a></li>
+                <li><a href="#"><img src="../images/4的副本.jpg" alt=""></a></li>
+                <li><a href="#"><img src="../images/5的副本.jpg" alt=""></a></li>
+                <li><a href="#"><img src="../images/6的副本.jpg" alt=""></a></li>
+            </ul>
+            <div class="list">
+                <i class="current">1</i>
+                <i>2</i>
+                <i>3</i>
+                <i>4</i>
+                <i>5</i>
+                <i>6</i>
+            </div>
+            <div class="arrow">
+                <span class="arrow-left">&lt;</span>
+                <span class="arrow-right">&gt;</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    /*
+       轮播图拆分成几个效果
+         1.序号轮播
+         2.左右按钮轮播
+         3.自动轮播
+         4.鼠标移入，暂停，鼠标离开，恢复自动轮播
+     */
+
+    // 序号轮播
+    // 鼠标移入对应的序号，轮播图就切换到对应的图片
+    /*
+      步骤：
+        1.获取元素
+        2.注册鼠标移入事件
+        3.计算出ul的位置，设置给ul
+    */
+    // 图片的宽度要在静态资源加载完毕之后获取
+    window.onload = function () {
+        // 第一功能，事件移入圆点切换图片
+        // 获取圆点元素
+        let circles = document.querySelectorAll('.list i');
+        // 获取图片元素
+        let img = document.querySelector('#imglist img'); //只用选取一张图片就可以了
+        // console.log(img);
+        // 获取ul元素
+        let ul = document.querySelector('#imglist');
+
+        // 给每个圆点绑定鼠标移入事件
+        circles.forEach(function (e, i) {
+            e.onmouseover = function () {
+                // 遍历循环把每个圆点设置成普通
+                circles.forEach(e => {
+                    e.classList.remove('current');
+                });
+                // 再把自己设置成有样式
+                this.classList.add('current');
+
+                // 算出移动ul的距离,公式是索引*图片的宽度*-1
+                ul.style.left = i * img.offsetWidth * -1 + 'px';
+                imgInedx = i;
+            }
+        });
+
+
+
+
+        // 第二个功能：点击左右箭头切换图片
+        // 获取右边箭头元素
+        let arrRight = document.querySelector('.arrow-right');
+        // 先假设当前图片位置
+        let imgInedx = 0;
+
+        // 给右边箭头绑定点击事件
+        arrRight.onclick = function () {
+            // console.log(124);
+            // 点击的时候判断，如果当前图片是第最后一张，就跳转到第一张，否则就自增
+            // imgInedx === ul.children.length - 1 ? imgInedx = 0 : imgInedx++
+            if (imgInedx === ul.children.length - 1) {
+                imgInedx = 0;
+            } else {
+                imgInedx++;
+            };
+
+            // 计算出ul移动的距离
+            ul.style.left = imgInedx * img.offsetWidth * -1 + 'px';
+        }
+            ;
+
+
+
+        // 获取左键元素
+        let arrLeft = document.querySelector('.arrow-left');
+        // 给左箭头绑定点击事件
+        arrLeft.onclick = function () {
+            // 判断如果图片到第一张时，跳转到最后一张
+            imgInedx === 0 ? imgInedx = ul.children.length - 1 : imgInedx--;
+            // 计算出ul移动的距离
+            ul.style.left = imgInedx * img.offsetWidth * -1 + 'px';
+        };
+
+
+
+        // 第三个功能，自动切换功能,就是每隔一段时间点击右键切换图片，用永久定时器
+        let timmer = setInterval(function () {
+            arrRight.onclick();
+        }, 1500);
+
+
+
+        // 第四个功能，鼠标移入时，定时器暂停
+        // 获取大盒子元素
+        let box = document.querySelector('.box');
+        box.onmouseover = function () {
+            clearInterval(timmer);
+        }
+
+
+        // 第五个功能，鼠标移除时，开启定时器
+        box.onmouseout = function () {
+            timmer = setInterval(function () {
+                arrRight.onclick();
+            }, 1500);
+
+        }
+
+
+    }
+
+
+</script>
+
+</html>

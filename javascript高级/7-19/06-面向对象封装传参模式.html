@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        input {
+            outline: none;
+            border: 1px solid #333;
+        }
+
+        .form {
+            width: 400px;
+            margin: 100px auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .cell {
+            padding: 0 10px;
+            line-height: 55px;
+        }
+
+        .f2 {
+            flex: 2;
+        }
+
+        .f3 {
+            flex: 3;
+        }
+
+        .control {
+            display: inline-block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            vertical-align: middle;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #333;
+            background-color: #fff;
+            border-color: #ccc;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form">
+        <form action="" id="registerForm" method="get">
+            <div class="row">
+                <div class="cell f2">请输入用户名：</div>
+                <div class="cell f3"><input type="text" class="control" name="userName"></div>
+            </div>
+            <div class="row">
+                <div class="cell f2">请输入密码：</div>
+                <div class="cell f3"><input type="text" class="control" name="password"></div>
+            </div>
+            <div class="row">
+                <div class="cell f2">请输入手机号码：</div>
+                <div class="cell f3"><input type="text" class="control" name="phoneNumber"></div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="cell f2"></div>
+                <div class="cell f3">
+                    <input type="submit" class="btn" value="提交">
+                </div>
+            </div>
+
+        </form>
+    </div>
+</body>
+<script>
+    /*
+       上一个页面的推导
+         已经可以把判断的逻辑剥离，每次使用，只要在数组里面添加对应的验证的函数即可
+     
+         但是不是面向对象的封装，把这些代码改造成面对象的封装
+             1.验证函数是全局函数，不安全
+             2.验证函数的数组，也需要根据表单的不同，写多个验证数组
+     
+         改造成面向对象的方式
+             1.把所有的验证函数，包装到对象里面
+             2.把添加验证函数和调用验证函数的过程，封装为面试对象的代码
+                 使用构造函数和原型来实现
+ 
+                 把验证看成是一个对象，给它写一个构造函数
+ 
+                 给构造函数的原型，添加两个方法，可以调用方法实现效果
+                 方法1: 添加验证的规则的方法
+                 方法2: 开始验证的方法
+     */
+
+    let form = document.querySelector('#registerForm');
+
+
+    // 使用一个对象，保存所有的验证策略
+    let strategies = {
+        isNonEmpty: function (val, errMsg) {
+            if (val === '') {
+                return (errMsg);
+            }
+        },
+
+        minLength: function (val, len, errMsg) {
+            if (val.length < len) {
+                return (errMsg);
+            }
+        },
+
+        // 如果还有更多的策略，在这里添加新的规则
+
+    }
+
+    function Validator() {
+        this.validateFunce = [];
+    }
+    // console.log(strategies)
+
+
+    // add方法需要两个参数
+    // 1.验证的控件是可变的，把验证的控件作为一个参数传递
+    // 2 验证的规则可能有多条，以数组的形式传入
+    //  2的要求，传入的数组里面是对象,对象有两个属性： 一个是验证的方法名,验证不通过的提示信息
+    Validator.prototype.add = function (dom, rules) {
+        for (let i = 0; i < rules.length; i++) {
+            let rule = rules[i];
+            // console.log(rules);
+            // console.log(dom)
+            // console.log(rule);
+            // console.log(rule.validateFunceName);
+
+
+            // 把验证函数添加到数组里
+            // 创建一个验证的函数，放到数组里
+            let fn = function () {
+                // let funName = rule.validateFunceName;
+                // console.log(funName)
+                // console.log(strategies[funName])
+                // 这个funName是strategies里面的一个键
+                // return strategies[funName](dom.value, rule.errMsg)
+                // let parmArr = rule.validateFunceName;
+                // console.log(parmArr);
+                let pramArr = rule.validateFunceName.split(':');
+                console.log(pramArr);
+                // 把第一个拿出来
+                let funName = pramArr.shift();
+                // console.log(funName)
+                pramArr.push(rule.errMsg);
+                pramArr.unshift(dom.value);
+                // console.log(parmArr) //) ["", " 8", "用户名长度不能小于8"]
+                console.dir(strategies[funName])
+                console.log(pramArr);
+
+                return strategies[funName].apply(dom, pramArr);
+                // return strategies[funName].apply(dom, parmArr);
+                //    console.log(res)
+                // console.log(strategies[funName].apply(dom, parmArr))
+
+            }
+            this.validateFunce.push(fn)
+        }
+    }
+
+
+
+    // 开始验证的方法
+    Validator.prototype.start = function () {
+        for (let i = 0; i < this.validateFunce.length; i++) {
+            let errMsg = this.validateFunce[i]();
+            if (errMsg) {
+                return errMsg;
+            }
+        }
+    }
+
+
+    // // 再来一个函数进行验证
+    // function validate() {
+    //     for (let i = 0; i < validateFunce.length; i++) {
+    //         let errMsg = validateFunce[i]();
+    //         // errMsg要么是underfind，要么是错误信息
+    //         if (errMsg) {
+    //             return (errMsg);
+    //         }
+    //     }
+    // }
+
+
+
+
+
+    let vld = new Validator();
+    vld.add(form.userName,
+        [{
+            validateFunceName: 'isNonEmpty',
+            errMsg: '用户名不能为空'
+        },
+        {
+            validateFunceName: 'minLength:8',   //如果函数调用多个参数，多个参数使用冒号隔开
+            errMsg: '用户名长度不能小于8'
+
+        }]);
+
+
+
+    vld.add(form.password, [
+        {
+            validateFunceName: 'isNonEmpty',
+            errMsg: '密码不能为空'
+        },
+        {
+            validateFunceName: 'minLength:6',
+            errMsg: '密码长度不能小于8'
+        }
+
+    ])
+
+    // 每当需要一个验证的表单，就new一个对象
+    //  let vld = new Validator();
+    // vld.add(form.userName,
+    // [{
+    //     validateFunName : 'isNonEmpty',
+    //     errMsg : '用户名不为空'
+    // },
+    // {
+    //     validateFunName : 'minLength:8',// 如果函数调用有多个参数，多个参数使用冒号隔开
+    //     errMsg: '用户名的长度不能小于8'
+    // }]);
+
+    // // 添加密码的验证
+    // vld.add(form.password,[
+    //     {
+    //         validateFunName:'isNonEmpty',
+    //         errMsg : '密码不能为空'
+    //     },
+    //     {
+    //         validateFunName:'minLength:6',
+    //         errMsg : '密码的长度不能小于6位'
+    //     }
+    // ]);
+
+
+
+
+
+
+    // 获取表单元素
+
+    // 获取提交按钮
+    let btn = document.querySelector('.btn');
+
+    btn.onclick = function (e) {
+        // console.log(123)
+        e.preventDefault();
+        // 把用户名的内容为空时，赋值给变量
+        let errMsg = vld.start();
+
+        if (errMsg) {
+            e.preventDefault();
+            alert(errMsg);
+        }
+    }
+
+
+</script>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>开灯</button>
+    <button>关灯</button>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+
+    </ul>
+
+</body>
+
+<script src="../js/jquery-2.2.2.js"></script>
+<script>
+    // 效果：点击开灯，背景颜色白，点击关灯，背景颜色变白
+    // 获取元素，注册点击事件
+    
+    $(function(){
+        $('button').on('click',function(){
+            $('body').css('background-color','#fff');
+        });
+        $('button').eq(1).on('click',()=>{
+            $('body').css('background-color','#000')
+        });
+
+        // console.log($('ul').html('<li>3</li>'));
+        console.log($('ul').text())
+        
+    });
+
+
+    
+
+
+</script>
+</html>

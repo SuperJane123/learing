@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="" enctype="application/x-www-form-urlencoded"></form>
+
+</body>
+<script>
+    // 分析会变的量有：请求方式，api接口地址，带回服务器的参数
+
+    function ajax(type, url, data, callback) {
+        // 创建异步对象
+        let xhr = new XMLHttpRequest();
+        // 判断如果请求方式为get时，把参数放在地址后面
+        if (type === 'get') {
+            // 给url重新赋值
+            url += '?' + data;
+            xhr.open(type, url);
+        };
+        if (type === 'post') {
+            // 打开请求准备
+            xhr.open(type, url);
+            // 设置请求头
+            xhr.setRequestHeader('Content-type,application/x-www-form-urlencoded');
+            // 发送请求
+            xhr.send(data);
+
+        } else {
+            xhr.send() //这是get发送请求
+        };
+
+        // 监听状态事件
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    // callback(xhr.responseText);
+                    // console.log(xhr.responseText)
+                    callback(xhr.responseText);
+                }
+            }
+        }
+
+
+    };
+
+    ajax('get', 'http://127.0.0.1:8080/isLogin','',function(res) {
+        console.log(res)
+    });
+
+//     let fn = function (a, b) {
+//         callback(a + b);
+//     }
+//    let text =  fn(10,20);
+//    console.log(text)
+</script>
+
+
+</html>

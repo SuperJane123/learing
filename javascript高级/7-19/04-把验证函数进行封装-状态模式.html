@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        input {
+            outline: none;
+            border: 1px solid #333;
+        }
+
+        .form {
+            width: 400px;
+            margin: 100px auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .cell {
+            padding: 0 10px;
+            line-height: 55px;
+        }
+
+        .f2 {
+            flex: 2;
+        }
+
+        .f3 {
+            flex: 3;
+        }
+
+        .control {
+            display: inline-block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            vertical-align: middle;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #333;
+            background-color: #fff;
+            border-color: #ccc;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form">
+        <form action="" id="registerForm" method="get">
+            <div class="row">
+                <div class="cell f2">请输入用户名：</div>
+                <div class="cell f3"><input type="text" class="control" name="userName"></div>
+            </div>
+            <div class="row">
+                <div class="cell f2">请输入密码：</div>
+                <div class="cell f3"><input type="text" class="control" name="password"></div>
+            </div>
+            <div class="row">
+                <div class="cell f2">请输入手机号码：</div>
+                <div class="cell f3"><input type="text" class="control" name="phoneNumber"></div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="cell f2"></div>
+                <div class="cell f3">
+                    <input type="submit" class="btn" value="提交">
+                </div>
+            </div>
+
+        </form>
+    </div>
+</body>
+<script>
+    /*
+      上一个页面的推导
+        可以处理用户名的判断了
+        如果要新增密码的判断，需要把代码重复使用，就把验证的函数进行封装
+            发现验证的过程，需要不同的控件的value，不同的错误提示信息
+    */
+
+    // 把验证的函数改造，改造成具有参数的形式
+    // 验证不同的控件的value是否为空，需要两个参数
+    // 一个是控件的value,一个是错误提示信息
+
+
+
+    // 把验证码的函数改造成有参数的形式,一个是控件的value，一个提示的错误信息
+
+    let isNonEmpty = function(val,errMsg){
+        if(val === ''){
+            return errMsg;
+        }
+    }
+
+    // 验证长度的需要传三个参数
+    let minLength = function(val,len,errMsg){
+        if(val.length < len){
+            return errMsg;
+        }
+    }
+
+
+
+    // let isNonEmpty = function () {
+    //     if (form.userName.value === '') {
+    //         return '用户名不能为空';
+    //     }
+    // }
+
+    // let minLength = function () {
+    //     if (form.userName.value.length < 8) {
+    //         return '用户名不能小于8个字符';
+    //     }
+    // }
+
+    // 声明一个数组把判断的条件的函数装起来
+    // let validateFunce = [isNonEmpty,minLength];
+    let validateFunce = [
+        function(){return isNonEmpty(form.userName.value,'用户名不能为空')},
+        function(){return minLength(form.userName.value,8,'用户名不能小于8个字符')},
+        function(){return isNonEmpty(form.password.value,'密码不能为空')},
+        function(){return minLength(form.password.value,6,'密码不能小于8个字符')}]
+
+    // 再来一个函数进行验证
+    function validate(){
+        for(let i = 0; i <validateFunce.length;i++ ){
+            let errMsg = validateFunce[i]();
+            console.log(errMsg);
+            // errMsg要么是underfind，要么是错误信息
+            if(errMsg){
+                return(errMsg);
+            }
+        }
+    }
+
+
+
+
+
+    // 获取表单元素
+    let form = document.querySelector('#registerForm');
+
+    // 获取提交按钮
+    let btn = document.querySelector('.btn');
+
+    btn.onclick = function (e) {
+        e.preventDefault();
+        // 把用户名的内容为空时，赋值给变量
+        let errMsg = validate();
+
+        if (errMsg) {
+            e.preventDefault();
+            alert(errMsg);
+        }
+    }
+
+
+</script>
+
+</html>

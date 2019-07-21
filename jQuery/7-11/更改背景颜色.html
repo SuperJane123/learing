@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+   
+
+
+</style>
+<body>
+    <button>开灯</button>
+    <button>关灯</button>
+
+</body>
+<script src="./js/jquery-2.2.2.js"></script>
+<script>
+    $(()=>{
+        //let btn1= $('button').eq(1);  //传回来的是伪数组
+        // console.log(btn1);
+
+        // let btn1 = $('button')[0];
+        // let btn2 = $('button')[1];
+        // console.log(btn1);   //传回来的是dom对象
+        // console.log(btn2)
+
+
+        let btn = $('button');
+        // console.log(btn);
+        // console.log(btn[0]);
+        // btn[0].onclick = function(){
+        //     $('body').css('background-color','#000')
+        // };
+        console.log(btn.eq(0));
+        btn.eq(0).on('click',function(){
+            $('body').css('background-color','#000')
+        });
+
+
+
+    });
+
+
+
+
+</script>
+
+</html>

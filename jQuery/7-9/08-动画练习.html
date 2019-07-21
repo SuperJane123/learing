@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    .box {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        position: absolute;
+    }
+
+</style>
+<body>
+    <div class="box"></div>
+</body>
+<script src="../js/jquery-2.2.2.js"></script>
+<script>
+    $(()=>{
+        $('.box').on('click',function(){
+            // console.log(123)
+           $(this).animate({left:500 , width : 300},1000,function(){
+            $('.box').animate({top:300,height : 300},1000,function(){
+                $('.box').animate({left:8, width:100},1000,()=>{
+                    $('.box').animate({top:8 , height:100},1000);
+                });
+            });
+           });
+        });
+    });
+
+
+
+</script>
+</html>

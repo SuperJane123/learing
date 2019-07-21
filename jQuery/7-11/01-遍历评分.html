@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>五角星评分案例</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .comment {
+            font-size: 40px;
+            color: red;
+        }
+
+        .comment li {
+            float: left;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <ul class="comment">
+        <li>☆</li>
+        <li>☆</li>
+        <li>☆</li>
+        <li>☆</li>
+        <li>☆</li>
+    </ul>
+
+</body>
+<script src="./js/jquery-2.2.2.js"></script>
+<script>
+    /*
+      效果：
+        1.鼠标移入，鼠标在哪个星星上面，当前的星星和之前的星星都是实心
+        2.鼠标移出，分数回归原来的分数 - 之前有一个分数，鼠标移出，之前的分数和左边都是实心的
+        3.鼠标点击，修改分数
+    */
+    /*
+      效果1的思路：
+        1. 获取元素
+        2. 注册鼠标移入事件
+        3. 遍历从第一个开始，到当前结束，都变成实心的，把当前之后的变成空心的
+    */
+
+    //   
+    $(() => {
+        // 获取星星元素，
+        let lis = $('.comment>li');
+        console.log(lis)
+        // 获取当前星星索引位置
+
+        //遍历星星注册鼠标移入事件
+        // lis.each((i,e)=>{
+        //     $(e).on('mouseover',function(){
+        //         let index = $(this).index();
+        //         console.log(index);
+        //     });
+        // });
+        lis.on('mouseover', function () {
+            // console.log(123)
+            lis.each((i, e) => {
+                // console.log(i);
+                // 获取每个li的索引位置
+                let index = $(this).index();
+                // console.log(index);
+                // 判断如果li的索引小于当前点击的索引的位置，就把前面的星星换成实心的
+                if (i <= index) {
+                    $(e).text('★');
+                } else {   //否则大于他的就是空心
+                    $(e).text('☆');
+                } ''
+
+            });
+        });
+        // 让分数回到原来的分数
+        let score = 0;
+        // 注册鼠标移出事件
+        lis.on('mouseout', function () {
+            lis.each((i, e) => {
+                // console.log(score)
+                if (i < score) {
+                    $(e).text('★');  //当索引小于0时，当前的内容是实心
+                    // $(e).text('☆')
+                } else {
+                    $(e).text('☆');  //否则就是空心
+                };
+            });
+        });
+
+
+        // 注册点击事件
+        lis.on('click',function(){
+            // 点击使，分数等于当前索引位置+1
+            score = $(this).index()+1;
+            console.log(score);
+        });
+        // console.log(score)
+
+    });
+
+</script>
+
+</html>

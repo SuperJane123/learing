@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .main {
+      width: 1200px;
+      margin: 0 auto;
+    }
+
+    ul {
+      list-style: none;
+      max-width: 300px;
+      background-color: #000;
+      padding: 4px;
+    }
+
+    li {
+      margin-top: 4px;
+      padding-left: 10px;
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 1px dashed #fff;
+      font-size: 24px;
+    }
+    a::before{
+      content: "☆"
+    }
+    .hide {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main">
+    <div class="nav"></div>
+  </div>
+</body>
+<script>
+  let navData = [
+    { id: 1, text: '一级菜单A', parentId: null },
+    { id: 2, text: '一级菜单B', parentId: null },
+    { id: 3, text: '一级菜单C', parentId: null },
+    { id: 4, text: '二级菜单AA', parentId: 1 },
+    { id: 5, text: '二级菜单AB', parentId: 1 },
+    { id: 6, text: '二级菜单AC', parentId: 1 },
+    { id: 7, text: '二级菜单BA', parentId: 2 },
+    { id: 8, text: '二级菜单BB', parentId: 2 },
+    { id: 9, text: '二级菜单BC', parentId: 2 },
+    { id: 10, text: '二级菜单CA', parentId: 3 },
+    { id: 11, text: '二级菜单CB', parentId: 3 },
+    { id: 12, text: '二级菜单CC', parentId: 3 },
+    { id: 13, text: '三级菜单AAA', parentId: 4 },
+    { id: 14, text: '三级菜单BAA', parentId: 7 },
+    { id: 15, text: '三级菜单CAA', parentId: 10 }
+  ];
+
+
+// 首先判断哪些是第一级菜单，然后把一级菜单用数组装起来
+function fn(arr,id){
+    // 先声明一个空数组
+    let temp = [];
+    // 遍历数组，判断id为null就是一级菜单
+    arr.forEach(e=>{
+        if(e.parentId === id){
+            temp.push(e);    //添加到数组里
+
+        //     e.child = [];
+        //     navData.forEach(a =>{
+        //         if(a.parentId === e.id){
+        //             e.child.push(a);
+        //             a.child = [];
+        //             navData.forEach(c=>{
+        //                 if(c.parentId === a.id){
+        //                     a.child.push(c)
+        //                 }
+        //             });
+        //         }
+        //     });
+
+
+            // 递归写法
+            e.child = fn(arr,e.id)
+         }
+    });
+    return temp;
+};
+
+let menu = fn(navData,null);
+// console.log(menu)
+
+
+
+// // 现在要封装生成结构的写法
+// // 创建ul元素
+// let ul = document.createElement('ul');
+// // 然后遍历数组，生成li结构
+// menu.forEach(e=>{
+//     // 创建li结构
+//     let li = document.createElement('li');
+//     // 给li结构添加文本
+//     li.innerHTML = `<a href="#">${e.text}</a>`
+//     // 把内容添加到ul里面
+//     ul.appendChild(li);
+//    if(e.child.lenght !== 0){
+//        let ul2 = document.createElement('ul');
+//         li.appendChild(ul2);
+//         e.child.forEach(a =>{
+//             let li2 = document.createElement('li');
+//             li2.innerHTML = `<a href="#">${a.text}</a>`
+//             ul2.appendChild(li2);
+//             if(a.child.lenght !== 0){
+//                 let ul3 = document.createElement('ul');
+//                 li2.appendChild(ul3);
+//                 a.child.forEach(b=>{
+//                     let li3 = document.createElement('li');
+//                     li3.innerHTML = `<a href="#">${b.text}</a>`
+//                     ul3.appendChild(li3);
+//                 });
+//             }
+//         });
+//    }
+    
+// });
+
+// // 把ul的内容添加到nav里面
+// let nav = document.querySelector('.nav');
+// nav.appendChild(ul)
+
+
+function fn2(ulParent,arr){
+    // 生成ul结构
+    let ul = document.createElement('ul');
+    // 把ul结构添加到父亲里面，其中父亲是不固定的，是变量
+    // 把ul设置成隐藏
+    ul.classList.add('hide')
+    ulParent.appendChild(ul);
+    // 遍历数组生成li，其中数组是不固定的，是变量
+    arr.forEach(e=>{
+        // 生成li结构
+        let li = document.createElement('li');
+        // 给li添加内容
+        li.innerHTML = `<a href="#">${e.text}</a>`;
+        // 手动添加li到ul里面
+        ul.appendChild(li);
+        // 判断子级菜单时候还有孙子菜单，如果有就继续创建结构
+        if(e.child.lenght !== 0){
+            fn2(li,e.child);
+        }
+    });
+};
+
+let nav = document.querySelector('.nav');
+// console.log(nav)
+let res = fn2(nav,menu);
+
+
+
+// 需要手动的把第一级的ul菜单设置出来
+nav.children[0].classList.remove('hide');
+nav.onclick = function(e){
+  console.log(123)
+    // console.log(e.target);
+    if(e.target.parentNode.children.lenght !==1){
+      // console.log(e.target.parentNode.children)
+      if(e.target.nodeName === 'A'){
+        e.target.parentNode.children[1].classList.toggle('hide')
+        // e.target.parentNode.children[1].clsssList.remove('hide');
+        // console.log(1334)
+      }
+    }
+    
+}
+
+
+
+// 获取li元素
+// let lis = document.querySelectorAll('li');
+// lis.forEach(e=>{
+//     e.onclick = function(e){
+//         e.stopPropagation();
+//        if(this.children.length != 1){
+//             this.children[1].classList.toggle('hide');
+//        }
+//     };
+// });
+
+
+
+
+  
+</script>
+
+</html>
